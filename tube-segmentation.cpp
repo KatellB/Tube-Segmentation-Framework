@@ -976,7 +976,8 @@ void runCircleFittingAndNewCenterlineAlg(OpenCL * ocl, cl::Image3D * dataset, SI
     }
 
 	if(getParamStr(parameters, "storage-dir") != "off") {
-		writeDataToDisk(output, getParamStr(parameters, "storage-dir"), getParamStr(parameters, "storage-name"));
+		std::cout << "perro1 " << getParamStr(parameters, "storage-dir") << std::endl;
+		writeDataToDisk(output, getParamStr(parameters, "storage-dir"), getParamStr(parameters, "inputFilename"));
     }
 
 }
@@ -1248,10 +1249,9 @@ void runCircleFittingAndTest(OpenCL * ocl, cl::Image3D * dataset, SIPL::int3 * s
 		output->setSegmentation(volume);
     }
 
-
-
 	if(getParamStr(parameters, "storage-dir") != "off") {
-        writeDataToDisk(output, getParamStr(parameters, "storage-dir"), getParamStr(parameters, "storage-name"));
+		std::cout << "perro2 " << getParamStr(parameters, "storage-dir") << std::endl;
+        writeDataToDisk(output, getParamStr(parameters, "storage-dir"), getParamStr(parameters, "inputFilename"));
     }
 
 }
@@ -1344,7 +1344,9 @@ void runCircleFittingAndRidgeTraversal(OpenCL * ocl, Image3D * dataset, SIPL::in
 
 
     if(getParamStr(parameters, "storage-dir") != "off") {
-        writeDataToDisk(output, getParamStr(parameters, "storage-dir"), getParamStr(parameters, "storage-name"));
+    	std::cout << "perro " << getParamStr(parameters, "inputFilename")<< getParamStr(parameters, "storage-dir") << std::endl;
+
+        writeDataToDisk(output, getParamStr(parameters, "storage-dir"), getParamStr(parameters, "inputFilename"));
     }
 
 }

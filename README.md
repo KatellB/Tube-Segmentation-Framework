@@ -44,6 +44,11 @@ The first arguments is the dataset to process. This has to be a metadata (.mhd) 
 Some test data is available with the software. You can test the program with the following command:
 ```bash
 ./tubeSegmentation tests/data/synthetic/dataset_1/noisy.mhd --parameters Synthetic-Vascusynth --display
+
+
+./tubeSegmentation /data/CLUST/3D/EMC-04/Data/mhdIso/double/007FilterDPAD4Norm.mhd --parameters Neuro-Vessels-USA --display
+./tubeSegmentation /data/CLUST/3D/EMC-04/Data/mhd/007Alpha.mhd --parameters Neuro-Vessels-USA --display
+./tubeSegmentation /data/CLUST/3D/EMC-04/Data/mhd/007AlphaMedian.mhd --parameters Neuro-Vessels-USA
 ```
 
 

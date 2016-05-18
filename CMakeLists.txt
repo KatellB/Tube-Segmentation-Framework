@@ -46,7 +46,7 @@ endif()
 #
 # Boost
 ###########
-find_package(Boost COMPONENTS iostreams REQUIRED)
+find_package(Boost COMPONENTS iostreams system filesystem REQUIRED)
 
 #------------------------------------------------------------------------------
 # Where to look for includes and libraries
