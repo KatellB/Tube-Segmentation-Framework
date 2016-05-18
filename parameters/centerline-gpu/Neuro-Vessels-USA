@@ -1,13 +1,12 @@
-minimum 50
+mode black
+centerline-method ridge
 maximum 200
+cropping no
 fmax 0.1
-min-mean-tdf 0.5
-radius-min 1.5
-radius-max 7.0
-small-blur 2.0
-large-blur 3.0
-cropping threshold
-cropping-threshold 50
-min-tree-length 10
+min-mean-tdf 0.2
+radius-min 2.0
+radius-max 10.0
+small-blur 1.0
+min-tree-length 1.0
 sphere-segmentation
-cube-size 4
+storage-dir /data/CLUST/3D/EMC-04/Data/mhdIso/double/tube/
