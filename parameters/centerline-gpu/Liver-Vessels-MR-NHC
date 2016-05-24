@@ -1,0 +1,12 @@
+centerline-method ridge
+fmax 0.05
+gvf-mu 0.05
+m-low 0.05
+maximum 200
+min-tree-length 20.0
+min-mean-tdf 0.5
+mode black
+radius-max 10
+radius-min 1
+small-blur 0.5
+storage-dir /data/NHC/

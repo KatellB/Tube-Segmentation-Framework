@@ -1,0 +1,3 @@
+../TDF/tubeSegmentation /data/US-IHU/trackedUS/10-05/US/calibRegistration/coronalAcqPlane/TEST_3D_INRIA.US._.0001.0062.2016.05.10.09.15.35.489823.1156978.mhd --parameters Liver-Vessels-US-Phantom
+../TDF/tubeSegmentation /data/US-IHU/trackedUS/10-05/US/calibRegistration/coronalAcqPlane/TEST_3D_INRIA.US._.0001.0062.2016.05.10.09.15.35.489823.1156978Equ.mhd --parameters Liver-Vessels-US-Phantom-Equ
+../TDF/tubeSegmentation /data/NHC/DEGEN_MARI_2253568_0002.mhd --parameters Liver-Vessels-MR
