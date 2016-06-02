@@ -1,0 +1,14 @@
+mode black
+centerline-method ridge
+maximum 200
+cropping no
+fmax 0.02
+min-mean-tdf 0.01
+radius-max 120
+radius-min 1
+radius-step 0.5
+small-blur 1.0
+min-tree-length 20.0
+storage-dir /data/US-IHU/trackedUS/10-05/US/calibRegistration/coronalAcqPlane/Segmented/ADMSS/RG/
+use-spline-tdf
+sphere-segmentation

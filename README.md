@@ -49,6 +49,11 @@ Some test data is available with the software. You can test the program with the
 ./tubeSegmentation /data/CLUST/3D/EMC-04/Data/mhdIso/double/007FilterDPAD4Norm.mhd --parameters Neuro-Vessels-USA --display
 ./tubeSegmentation /data/CLUST/3D/EMC-04/Data/mhd/007Alpha.mhd --parameters Neuro-Vessels-USA --display
 ./tubeSegmentation /data/CLUST/3D/EMC-04/Data/mhd/007AlphaMedian.mhd --parameters Neuro-Vessels-USA
+
+
+./tubeSegmentation /data/NHC/P12/serieC.mhd -parameters Liver-Vessels-CT-NHC
+./tubeSegmentation /data/NHC/P12/equ.mhd -parameters Liver-Vessels-CT-NHC
+./tubeSegmentation /data/NHC/P12/cropped.mhd --parameters Liver-Vessels-CT-NHC
 ```
 
 

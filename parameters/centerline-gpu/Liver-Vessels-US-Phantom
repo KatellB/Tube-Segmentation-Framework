@@ -1,6 +1,5 @@
 mode black
 centerline-method ridge
-maximum 200
 cropping no
 fmax 0.01
 min-mean-tdf 0.5

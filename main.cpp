@@ -44,9 +44,6 @@ int main(int argc, char ** argv) {
 	StringParameter v = StringParameter(defaultValue, list, description, group);
 	parameters.strings[inputFilenameStr] = v;
     
-    
-    
-    
     setParameter(parameters, inputFilenameStr , boost::filesystem::path(filename.c_str()).stem().string()); 
 //    printAllParameters();//TODO: remove print all
 

@@ -942,6 +942,7 @@ radius->show(40, 80);
 
 void runCircleFittingAndNewCenterlineAlg(OpenCL * ocl, cl::Image3D * dataset, SIPL::int3 * size, paramList &parameters, TSFOutput * output) {
     INIT_TIMER
+	std::cout << "perro " << getParamStr(parameters, "storage-dir") << std::endl;
     Image3D vectorField, radius;
     Image3D * TDF = new Image3D;
     const int totalSize = size->x*size->y*size->z;
@@ -958,6 +959,13 @@ void runCircleFittingAndNewCenterlineAlg(OpenCL * ocl, cl::Image3D * dataset, SI
 
     runCircleFittingMethod(*ocl, dataset, *size, parameters, vectorField, *TDF, radius);
     output->setTDF(TDF);
+
+    if(getParamStr(parameters, "storage-dir") != "off") {
+		std::cout << "perro " << getParamStr(parameters, "storage-dir") << std::endl;
+		writeDataToDisk(output, getParamStr(parameters, "storage-dir"), getParamStr(parameters, "inputFilename"));
+    }
+
+
     if(getParamBool(parameters, "tdf-only"))
     	return;
 

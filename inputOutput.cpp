@@ -2,6 +2,7 @@
 #include <fstream>
 //#include <boost/filesystem.hpp>
 #include "SIPL/Exceptions.hpp"
+#include <iostream>
 using namespace SIPL;
 using namespace cl;
 
@@ -54,6 +55,25 @@ void writeDataToDisk(TSFOutput * output, std::string storageDirectory, std::stri
 //	std::cout << boost::filesystem::path(name.c_str()).stem().string() << std::endl;
 	
 	SIPL::int3 * size = output->getSize();
+
+	if(output->hasTDF()) {
+		// Create MHD file
+		std::cout << "HOLA"<< std::endl;
+
+		std::ofstream file;
+		std::string filename = storageDirectory + name + ".TDF.mhd";
+		file.open(filename.c_str());
+		file << "ObjectType = Image\n";
+		file << "NDims = 3\n";
+		file << "DimSize = " << output->getSize()->x << " " << output->getSize()->y << " " << output->getSize()->z << "\n";
+		file << "ElementSpacing = " << output->getSpacing().x << " " << output->getSpacing().y << " " << output->getSpacing().z << "\n";
+		file << "ElementType = MET_CHAR\n";
+		file << "ElementDataFile = " << name << ".TDF.raw\n";
+		file.close();
+		writeToRaw<float>(output->getTDF(), storageDirectory + name + ".TDF.raw", size->x, size->y, size->z);
+	}
+
+
 	if(output->hasCenterlineVoxels()) {
 		// Create MHD file
 		std::ofstream file;
