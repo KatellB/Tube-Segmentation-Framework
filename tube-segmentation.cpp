@@ -1414,6 +1414,8 @@ Image3D readDatasetAndTransfer(OpenCL &ocl, std::string filename, paramList &par
     std::string rawFilename = "";
     bool typeFound = false, sizeFound = false, rawFilenameFound = false;
     SIPL::float3 spacing(1,1,1);
+    SIPL::float3 centerRotation(0,0,0);
+    SIPL::float3 rawOffset(0,0,0);
     do {
         std::string line;
         std::getline(mhdFile, line);
@@ -1457,6 +1459,28 @@ Image3D readDatasetAndTransfer(OpenCL &ocl, std::string filename, paramList &par
             spacing.x = atof(sizeX.c_str());
             spacing.y = atof(sizeY.c_str());
             spacing.z = atof(sizeZ.c_str());
+        } else if(line.substr(0, 16) == "CenterOfRotation") {
+            std::string sizeString = line.substr(16+3);
+            std::string sizeX = sizeString.substr(0,sizeString.find(" "));
+            sizeString = sizeString.substr(sizeString.find(" ")+1);
+            std::string sizeY = sizeString.substr(0,sizeString.find(" "));
+            sizeString = sizeString.substr(sizeString.find(" ")+1);
+            std::string sizeZ = sizeString.substr(0,sizeString.find(" "));
+
+            centerRotation.x = atof(sizeX.c_str());
+            centerRotation.y = atof(sizeY.c_str());
+            centerRotation.z = atof(sizeZ.c_str());
+        } else if(line.substr(0, 6) == "Offset") {
+            std::string sizeString = line.substr(6+3);
+            std::string sizeX = sizeString.substr(0,sizeString.find(" "));
+            sizeString = sizeString.substr(sizeString.find(" ")+1);
+            std::string sizeY = sizeString.substr(0,sizeString.find(" "));
+            sizeString = sizeString.substr(sizeString.find(" ")+1);
+            std::string sizeZ = sizeString.substr(0,sizeString.find(" "));
+
+            rawOffset.x = atof(sizeX.c_str());
+            rawOffset.y = atof(sizeY.c_str());
+            rawOffset.z = atof(sizeZ.c_str());
         }
 
     } while(!mhdFile.eof());
@@ -1771,6 +1795,12 @@ Image3D readDatasetAndTransfer(OpenCL &ocl, std::string filename, paramList &par
             std::cout << "Cropping time: " << (end-start)*1.0e-6 << " ms" << std::endl;
             ocl.queue.enqueueMarker(&startEvent);
         }
+
+        //solve the issue of rawOffset for cropping
+        rawOffset.x = rawOffset.x + x1*spacing.x;
+        rawOffset.y = rawOffset.y + y1*spacing.y;
+        rawOffset.z = rawOffset.z + z1*spacing.z;
+
     } else if(getParamStr(parameters, "parameters") == "AAA-Vessels-CT") {
         float percentToRemove = 0.15f; // Remove 10% from each side in the xy plane
 
@@ -1829,6 +1859,8 @@ Image3D readDatasetAndTransfer(OpenCL &ocl, std::string filename, paramList &par
     }
     output->setShiftVector(shiftVector);
     output->setSpacing(spacing);
+    output->setCenterRotation(centerRotation);
+    output->setRawOffset(rawOffset);
 
     // Run toFloat kernel
 

@@ -28,7 +28,11 @@ public:
 	SIPL::int3 getShiftVector() const;
 	void setShiftVector(SIPL::int3 shiftVector);
 	SIPL::float3 getSpacing() const;
-	void setSpacing(SIPL::float3 spacing);
+    void setSpacing(SIPL::float3 spacing);
+    SIPL::float3 getCenterRotation() const;
+    void setCenterRotation(SIPL::float3 centerR);
+    SIPL::float3 getRawOffset() const;
+    void setRawOffset(SIPL::float3 rawOffset);
 	oul::Context *getContext();
 private:
 	oul::Context *context;
@@ -37,6 +41,8 @@ private:
 	cl::Image3D* oclTDF;
 	SIPL::int3* size;
 	SIPL::float3 spacing;
+    SIPL::float3 centerRotation;
+    SIPL::float3 rawOffset;
 	SIPL::int3 shiftVector;
 	bool TDFis16bit;
 	bool hostHasSegmentation;

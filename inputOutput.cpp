@@ -21,6 +21,8 @@ void writeDataToDisk(TSFOutput * output, std::string storageDirectory, std::stri
 		file << "ObjectType = Image\n";
 		file << "NDims = 3\n";
 		file << "DimSize = " << output->getSize()->x << " " << output->getSize()->y << " " << output->getSize()->z << "\n";
+        file << "Offset = " << output->getRawOffset().x << " " << output->getRawOffset().y << " " << output->getRawOffset().z << "\n";
+        file << "CenterOfRotation = " << output->getCenterRotation().x << " " << output->getCenterRotation().y << " " << output->getCenterRotation().z << "\n";
 		file << "ElementSpacing = " << output->getSpacing().x << " " << output->getSpacing().y << " " << output->getSpacing().z << "\n";
 		file << "ElementType = MET_CHAR\n";
 		file << "ElementDataFile = " << name << ".centerline.raw\n";
@@ -35,6 +37,8 @@ void writeDataToDisk(TSFOutput * output, std::string storageDirectory, std::stri
 		file.open(filename.c_str());
 		file << "ObjectType = Image\n";
 		file << "NDims = 3\n";
+        file << "Offset = " << output->getRawOffset().x << " " << output->getRawOffset().y << " " << output->getRawOffset().z << "\n";
+        file << "CenterOfRotation = " << output->getCenterRotation().x << " " << output->getCenterRotation().y << " " << output->getCenterRotation().z << "\n";
 		file << "DimSize = " << output->getSize()->x << " " << output->getSize()->y << " " << output->getSize()->z << "\n";
 		file << "ElementSpacing = " << output->getSpacing().x << " " << output->getSpacing().y << " " << output->getSpacing().z << "\n";
 		file << "ElementType = MET_CHAR\n";
@@ -236,4 +240,20 @@ SIPL::float3 TSFOutput::getSpacing() const {
 
 void TSFOutput::setSpacing(SIPL::float3 spacing) {
 	this->spacing = spacing;
+}
+
+SIPL::float3 TSFOutput::getCenterRotation() const {
+	return centerRotation;
+}
+
+void TSFOutput::setCenterRotation(SIPL::float3 centerRotation) {
+	this->centerRotation = centerRotation;
+}
+
+SIPL::float3 TSFOutput::getRawOffset() const {
+    return rawOffset;
+}
+
+void TSFOutput::setRawOffset(SIPL::float3 rawOffset) {
+    this->rawOffset = rawOffset;
 }
