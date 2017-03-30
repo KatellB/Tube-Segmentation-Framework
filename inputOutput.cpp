@@ -20,11 +20,16 @@ void writeDataToDisk(TSFOutput * output, std::string storageDirectory, std::stri
 		file.open(filename.c_str());
 		file << "ObjectType = Image\n";
 		file << "NDims = 3\n";
-		file << "DimSize = " << output->getSize()->x << " " << output->getSize()->y << " " << output->getSize()->z << "\n";
+        file << "BinaryData = True\n";
+        file << "BinaryDataByteOrderMSB = False\n";
+        file << "CompressedData = False\n";
+        file << "TransformMatrix = " << output->getTransformMatrix().m11 << " " << output->getTransformMatrix().m12 << " " << output->getTransformMatrix().m13 << " " << output->getTransformMatrix().m21 << " " << output->getTransformMatrix().m22 << " " << output->getTransformMatrix().m23 << " " << output->getTransformMatrix().m31 << " " << output->getTransformMatrix().m32 << " " << output->getTransformMatrix().m33 << "\n";
         file << "Offset = " << output->getRawOffset().x << " " << output->getRawOffset().y << " " << output->getRawOffset().z << "\n";
         file << "CenterOfRotation = " << output->getCenterRotation().x << " " << output->getCenterRotation().y << " " << output->getCenterRotation().z << "\n";
-		file << "ElementSpacing = " << output->getSpacing().x << " " << output->getSpacing().y << " " << output->getSpacing().z << "\n";
-		file << "ElementType = MET_CHAR\n";
+        file << "AnatomicalOrientation = RAI\n";
+        file << "ElementSpacing = " << output->getSpacing().x << " " << output->getSpacing().y << " " << output->getSpacing().z << "\n";
+        file << "DimSize = " << output->getSize()->x << " " << output->getSize()->y << " " << output->getSize()->z << "\n";
+        file << "ElementType = MET_CHAR\n";
 		file << "ElementDataFile = " << name << ".centerline.raw\n";
 		file.close();
 		writeToRaw<char>(output->getCenterlineVoxels(), storageDirectory + name + ".centerline.raw", size->x, size->y, size->z);
@@ -37,14 +42,18 @@ void writeDataToDisk(TSFOutput * output, std::string storageDirectory, std::stri
 		file.open(filename.c_str());
 		file << "ObjectType = Image\n";
 		file << "NDims = 3\n";
+        file << "BinaryData = True\n";
+        file << "BinaryDataByteOrderMSB = False\n";
+        file << "CompressedData = False\n";
+        file << "TransformMatrix = " << output->getTransformMatrix().m11 << " " << output->getTransformMatrix().m12 << " " << output->getTransformMatrix().m13 << " " << output->getTransformMatrix().m21 << " " << output->getTransformMatrix().m22 << " " << output->getTransformMatrix().m23 << " " << output->getTransformMatrix().m31 << " " << output->getTransformMatrix().m32 << " " << output->getTransformMatrix().m33 << "\n";
         file << "Offset = " << output->getRawOffset().x << " " << output->getRawOffset().y << " " << output->getRawOffset().z << "\n";
         file << "CenterOfRotation = " << output->getCenterRotation().x << " " << output->getCenterRotation().y << " " << output->getCenterRotation().z << "\n";
-		file << "DimSize = " << output->getSize()->x << " " << output->getSize()->y << " " << output->getSize()->z << "\n";
-		file << "ElementSpacing = " << output->getSpacing().x << " " << output->getSpacing().y << " " << output->getSpacing().z << "\n";
-		file << "ElementType = MET_CHAR\n";
+        file << "AnatomicalOrientation = RAI\n";
+        file << "ElementSpacing = " << output->getSpacing().x << " " << output->getSpacing().y << " " << output->getSpacing().z << "\n";
+        file << "DimSize = " << output->getSize()->x << " " << output->getSize()->y << " " << output->getSize()->z << "\n";
+        file << "ElementType = MET_CHAR\n";
 		file << "ElementDataFile = " << name << ".segmentation.raw\n";
 		file.close();
-
 		writeToRaw<char>(output->getSegmentation(), storageDirectory + name + ".segmentation.raw", size->x, size->y, size->z);
 	}
 }
@@ -248,6 +257,14 @@ SIPL::float3 TSFOutput::getCenterRotation() const {
 
 void TSFOutput::setCenterRotation(SIPL::float3 centerRotation) {
 	this->centerRotation = centerRotation;
+}
+
+SIPL::mat3x3 TSFOutput::getTransformMatrix() const {
+    return transformMatrix;
+}
+
+void TSFOutput::setTransformMatrix(SIPL::mat3x3 transformMatrix) {
+    this->transformMatrix = transformMatrix;
 }
 
 SIPL::float3 TSFOutput::getRawOffset() const {

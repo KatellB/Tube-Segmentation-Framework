@@ -1415,6 +1415,7 @@ Image3D readDatasetAndTransfer(OpenCL &ocl, std::string filename, paramList &par
     bool typeFound = false, sizeFound = false, rawFilenameFound = false;
     SIPL::float3 spacing(1,1,1);
     SIPL::float3 centerRotation(0,0,0);
+    SIPL::mat3x3 transformMatrix(1,0,0,0,1,0,0,0,1);
     SIPL::float3 rawOffset(0,0,0);
     do {
         std::string line;
@@ -1470,6 +1471,35 @@ Image3D readDatasetAndTransfer(OpenCL &ocl, std::string filename, paramList &par
             centerRotation.x = atof(sizeX.c_str());
             centerRotation.y = atof(sizeY.c_str());
             centerRotation.z = atof(sizeZ.c_str());
+        } else if(line.substr(0, 15) == "TransformMatrix") {
+            std::string sizeString = line.substr(15+3);
+            std::string sizeM11 = sizeString.substr(0,sizeString.find(" "));
+            sizeString = sizeString.substr(sizeString.find(" ")+1);
+            std::string sizeM12 = sizeString.substr(0,sizeString.find(" "));
+            sizeString = sizeString.substr(sizeString.find(" ")+1);
+            std::string sizeM13 = sizeString.substr(0,sizeString.find(" "));
+            sizeString = sizeString.substr(sizeString.find(" ")+1);
+            std::string sizeM21 = sizeString.substr(0,sizeString.find(" "));
+            sizeString = sizeString.substr(sizeString.find(" ")+1);
+            std::string sizeM22 = sizeString.substr(0,sizeString.find(" "));
+            sizeString = sizeString.substr(sizeString.find(" ")+1);
+            std::string sizeM23 = sizeString.substr(0,sizeString.find(" "));
+            sizeString = sizeString.substr(sizeString.find(" ")+1);
+            std::string sizeM31 = sizeString.substr(0,sizeString.find(" "));
+            sizeString = sizeString.substr(sizeString.find(" ")+1);
+            std::string sizeM32 = sizeString.substr(0,sizeString.find(" "));
+            sizeString = sizeString.substr(sizeString.find(" ")+1);
+            std::string sizeM33 = sizeString.substr(0,sizeString.find(" "));
+
+            transformMatrix.m11 = atof(sizeM11.c_str());
+            transformMatrix.m12 = atof(sizeM12.c_str());
+            transformMatrix.m13 = atof(sizeM13.c_str());
+            transformMatrix.m21 = atof(sizeM21.c_str());
+            transformMatrix.m22 = atof(sizeM22.c_str());
+            transformMatrix.m23 = atof(sizeM23.c_str());
+            transformMatrix.m31 = atof(sizeM31.c_str());
+            transformMatrix.m32 = atof(sizeM32.c_str());
+            transformMatrix.m33 = atof(sizeM33.c_str());
         } else if(line.substr(0, 6) == "Offset") {
             std::string sizeString = line.substr(6+3);
             std::string sizeX = sizeString.substr(0,sizeString.find(" "));
@@ -1796,7 +1826,7 @@ Image3D readDatasetAndTransfer(OpenCL &ocl, std::string filename, paramList &par
             ocl.queue.enqueueMarker(&startEvent);
         }
 
-        //solve the issue of rawOffset for cropping
+        // Solve the issue of rawOffset for cropping
         rawOffset.x = rawOffset.x + x1*spacing.x;
         rawOffset.y = rawOffset.y + y1*spacing.y;
         rawOffset.z = rawOffset.z + z1*spacing.z;
@@ -1860,6 +1890,7 @@ Image3D readDatasetAndTransfer(OpenCL &ocl, std::string filename, paramList &par
     output->setShiftVector(shiftVector);
     output->setSpacing(spacing);
     output->setCenterRotation(centerRotation);
+    output->setTransformMatrix(transformMatrix);
     output->setRawOffset(rawOffset);
 
     // Run toFloat kernel

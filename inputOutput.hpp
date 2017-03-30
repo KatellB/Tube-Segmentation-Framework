@@ -30,7 +30,9 @@ public:
 	SIPL::float3 getSpacing() const;
     void setSpacing(SIPL::float3 spacing);
     SIPL::float3 getCenterRotation() const;
-    void setCenterRotation(SIPL::float3 centerR);
+    void setCenterRotation(SIPL::float3 centerRotation);
+    SIPL::mat3x3 getTransformMatrix() const;
+    void setTransformMatrix(SIPL::mat3x3 transformMatrix);
     SIPL::float3 getRawOffset() const;
     void setRawOffset(SIPL::float3 rawOffset);
 	oul::Context *getContext();
@@ -42,6 +44,7 @@ private:
 	SIPL::int3* size;
 	SIPL::float3 spacing;
     SIPL::float3 centerRotation;
+    SIPL::mat3x3 transformMatrix;
     SIPL::float3 rawOffset;
 	SIPL::int3 shiftVector;
 	bool TDFis16bit;
