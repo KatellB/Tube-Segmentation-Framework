@@ -4,3 +4,6 @@
 [submodule "OpenCLUtilityLibrary"]
 	path = OpenCLUtilityLibrary
 	url = https://github.com/smistad/OpenCLUtilityLibrary.git
+[submodule "OpenCLUtilities"]
+	path = OpenCLUtilities
+	url = git://github.com/smistad/OpenCLUtilities.git

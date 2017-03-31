@@ -14,3 +14,5 @@ radius-step 0.5
 min-tree-length 20.0
 small-blur 1
 use-spline-tdf
+storage-dir /home/katell/Desktop/data/MASTERCLASS_38_2015_01_074-014-IHU/ABDOMEN_ABDO_4_PHASESFOIE_ADULTE_20170207_084059_083000/Results/testmhd_crop/
+storage-name 09_AP_veineux_1.0_I30f_resampled_3
