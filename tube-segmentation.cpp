@@ -1422,6 +1422,7 @@ Image3D readDatasetAndTransfer(OpenCL &ocl, std::string filename, paramList &par
     }
     std::string typeName = "";
     std::string rawFilename = "";
+    std::string anatomicalOrientation = "";
     bool typeFound = false, sizeFound = false, rawFilenameFound = false;
     SIPL::float3 spacing(1,1,1);
     SIPL::float3 centerRotation(0,0,0);
@@ -1521,6 +1522,8 @@ Image3D readDatasetAndTransfer(OpenCL &ocl, std::string filename, paramList &par
             rawOffset.x = atof(sizeX.c_str());
             rawOffset.y = atof(sizeY.c_str());
             rawOffset.z = atof(sizeZ.c_str());
+        } else if(line.substr(0, 21) == "AnatomicalOrientation") {
+           anatomicalOrientation = line.substr(21+3);
         }
 
     } while(!mhdFile.eof());
@@ -1902,6 +1905,7 @@ Image3D readDatasetAndTransfer(OpenCL &ocl, std::string filename, paramList &par
     output->setCenterRotation(centerRotation);
     output->setTransformMatrix(transformMatrix);
     output->setRawOffset(rawOffset);
+    output->setAnatomicalOrientation(anatomicalOrientation);
 
     // Run toFloat kernel
 

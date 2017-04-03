@@ -35,18 +35,21 @@ public:
     void setTransformMatrix(SIPL::mat3x3 transformMatrix);
     SIPL::float3 getRawOffset() const;
     void setRawOffset(SIPL::float3 rawOffset);
-	oul::Context *getContext();
+    std::string getAnatomicalOrientation() const;
+    void setAnatomicalOrientation(std::string anatomicalOrientation);
+    oul::Context *getContext();
 private:
 	oul::Context *context;
 	cl::Image3D* oclCenterlineVoxels;
 	cl::Image3D* oclSegmentation;
 	cl::Image3D* oclTDF;
 	SIPL::int3* size;
+    SIPL::int3 shiftVector;
 	SIPL::float3 spacing;
     SIPL::float3 centerRotation;
     SIPL::mat3x3 transformMatrix;
     SIPL::float3 rawOffset;
-	SIPL::int3 shiftVector;
+    std::string anatomicalOrientation;
 	bool TDFis16bit;
 	bool hostHasSegmentation;
 	bool hostHasCenterlineVoxels;
