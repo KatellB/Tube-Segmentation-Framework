@@ -1416,6 +1416,7 @@ Image3D readDatasetAndTransfer(OpenCL &ocl, std::string filename, paramList &par
     if(!mhdFile) {
     	throw SIPL::IOException(filename.c_str(), __LINE__, __FILE__);
     }
+    std::string line;
     std::string typeName = "";
     std::string rawFilename = "";
     std::string anatomicalOrientation = "";
@@ -1424,79 +1425,47 @@ Image3D readDatasetAndTransfer(OpenCL &ocl, std::string filename, paramList &par
     SIPL::float3 centerRotation(0,0,0);
     SIPL::mat3x3 transformMatrix(1,0,0,0,1,0,0,0,1);
     SIPL::float3 rawOffset(0,0,0);
-    do {
-        std::string line;
-        std::getline(mhdFile, line);
-        if(line.substr(0, 11) == "ElementType") {
-            typeName = line.substr(11+3);
-            typeFound = true;
-        } else if(line.substr(0, 15) == "ElementDataFile") {
-            rawFilename = line.substr(15+3);
-            rawFilenameFound = true;
 
-            // Remove any trailing spaces
-            int pos = rawFilename.find(" ");
-            if(pos > 0)
-            rawFilename = rawFilename.substr(0,pos);
-            
+    while(getline(mhdFile,line)){
+        std::string test = "";
+        std::string trash = "";
+        mhdFile >> test;
+        if (test.compare("ElementType") == 0){
+            mhdFile >> trash >> typeName;
+            typeFound = true;
+        } else if (test.compare("ElementDataFile") == 0){
+            mhdFile >> trash >> rawFilename;
+            rawFilenameFound = true;
             // Get path name
-            pos = filename.rfind('/');
+            int pos = filename.rfind('/');
             if(pos > 0)
                 rawFilename = filename.substr(0,pos+1) + rawFilename;
-        } else if(line.substr(0, 7) == "DimSize") {
-            std::string sizeString = line.substr(7+3);
-            std::string sizeX = sizeString.substr(0,sizeString.find(" "));
-            sizeString = sizeString.substr(sizeString.find(" ")+1);
-            std::string sizeY = sizeString.substr(0,sizeString.find(" "));
-            sizeString = sizeString.substr(sizeString.find(" ")+1);
-            std::string sizeZ = sizeString.substr(0,sizeString.find(" "));
+        } else if (test.compare("DimSize") == 0){
+            std::string sizeX, sizeY, sizeZ;
+            mhdFile >> trash >> sizeX >> sizeY >> sizeZ;
 
             size->x = atoi(sizeX.c_str());
             size->y = atoi(sizeY.c_str());
             size->z = atoi(sizeZ.c_str());
 
             sizeFound = true;
-		} else if(line.substr(0, 14) == "ElementSpacing") {
-            std::string sizeString = line.substr(14+3);
-            std::string sizeX = sizeString.substr(0,sizeString.find(" "));
-            sizeString = sizeString.substr(sizeString.find(" ")+1);
-            std::string sizeY = sizeString.substr(0,sizeString.find(" "));
-            sizeString = sizeString.substr(sizeString.find(" ")+1);
-            std::string sizeZ = sizeString.substr(0,sizeString.find(" "));
+        } else if (test.compare("ElementSpacing") == 0){
+            std::string sizeX, sizeY, sizeZ;
+            mhdFile >> trash >> sizeX >> sizeY >> sizeZ;
 
             spacing.x = atof(sizeX.c_str());
             spacing.y = atof(sizeY.c_str());
             spacing.z = atof(sizeZ.c_str());
-        } else if(line.substr(0, 16) == "CenterOfRotation") {
-            std::string sizeString = line.substr(16+3);
-            std::string sizeX = sizeString.substr(0,sizeString.find(" "));
-            sizeString = sizeString.substr(sizeString.find(" ")+1);
-            std::string sizeY = sizeString.substr(0,sizeString.find(" "));
-            sizeString = sizeString.substr(sizeString.find(" ")+1);
-            std::string sizeZ = sizeString.substr(0,sizeString.find(" "));
+        } else if (test.compare("CenterOfRotation") == 0){
+            std::string sizeX, sizeY, sizeZ;
+            mhdFile >> trash >> sizeX >> sizeY >> sizeZ;
 
             centerRotation.x = atof(sizeX.c_str());
             centerRotation.y = atof(sizeY.c_str());
             centerRotation.z = atof(sizeZ.c_str());
-        } else if(line.substr(0, 15) == "TransformMatrix") {
-            std::string sizeString = line.substr(15+3);
-            std::string sizeM11 = sizeString.substr(0,sizeString.find(" "));
-            sizeString = sizeString.substr(sizeString.find(" ")+1);
-            std::string sizeM12 = sizeString.substr(0,sizeString.find(" "));
-            sizeString = sizeString.substr(sizeString.find(" ")+1);
-            std::string sizeM13 = sizeString.substr(0,sizeString.find(" "));
-            sizeString = sizeString.substr(sizeString.find(" ")+1);
-            std::string sizeM21 = sizeString.substr(0,sizeString.find(" "));
-            sizeString = sizeString.substr(sizeString.find(" ")+1);
-            std::string sizeM22 = sizeString.substr(0,sizeString.find(" "));
-            sizeString = sizeString.substr(sizeString.find(" ")+1);
-            std::string sizeM23 = sizeString.substr(0,sizeString.find(" "));
-            sizeString = sizeString.substr(sizeString.find(" ")+1);
-            std::string sizeM31 = sizeString.substr(0,sizeString.find(" "));
-            sizeString = sizeString.substr(sizeString.find(" ")+1);
-            std::string sizeM32 = sizeString.substr(0,sizeString.find(" "));
-            sizeString = sizeString.substr(sizeString.find(" ")+1);
-            std::string sizeM33 = sizeString.substr(0,sizeString.find(" "));
+        } else if (test.compare("TransformMatrix") == 0){
+            std::string sizeM11, sizeM12, sizeM13, sizeM21, sizeM22, sizeM23, sizeM31, sizeM32, sizeM33;
+            mhdFile >> trash >> sizeM11 >> sizeM12 >> sizeM13 >> sizeM21 >> sizeM22 >> sizeM23 >> sizeM31 >> sizeM32 >> sizeM33;
 
             transformMatrix.m11 = atof(sizeM11.c_str());
             transformMatrix.m12 = atof(sizeM12.c_str());
@@ -1507,27 +1476,18 @@ Image3D readDatasetAndTransfer(OpenCL &ocl, std::string filename, paramList &par
             transformMatrix.m31 = atof(sizeM31.c_str());
             transformMatrix.m32 = atof(sizeM32.c_str());
             transformMatrix.m33 = atof(sizeM33.c_str());
-        } else if(line.substr(0, 6) == "Offset") {
-            std::string sizeString = line.substr(6+3);
-            std::string sizeX = sizeString.substr(0,sizeString.find(" "));
-            sizeString = sizeString.substr(sizeString.find(" ")+1);
-            std::string sizeY = sizeString.substr(0,sizeString.find(" "));
-            sizeString = sizeString.substr(sizeString.find(" ")+1);
-            std::string sizeZ = sizeString.substr(0,sizeString.find(" "));
+        } else if (test.compare("Offset") == 0){
+            std::string sizeX, sizeY, sizeZ;
+            mhdFile >> trash >> sizeX >> sizeY >> sizeZ;
 
             rawOffset.x = atof(sizeX.c_str());
             rawOffset.y = atof(sizeY.c_str());
             rawOffset.z = atof(sizeZ.c_str());
-        } else if(line.substr(0, 21) == "AnatomicalOrientation") {
-           anatomicalOrientation = line.substr(21+3);
+        } else if (test.compare("AnatomicalOrientation") == 0){
+            mhdFile >> trash >> anatomicalOrientation;
         }
-
-    } while(!mhdFile.eof());
-
-    // Remove any trailing spaces
-    int pos = typeName.find(" ");
-    if(pos > 0)
-        typeName = typeName.substr(0,pos);
+    }
+    mhdFile.close();
 
     if(!typeFound || !sizeFound || !rawFilenameFound) {
         throw SIPL::SIPLException("Error reading mhd file. Type, filename or size not found", __LINE__, __FILE__);
