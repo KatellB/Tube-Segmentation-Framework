@@ -1,7 +1,6 @@
 #include "inputOutput.hpp"
 #include <fstream>
 #include "SIPL/Exceptions.hpp"
-#include <iostream>
 using namespace SIPL;
 using namespace cl;
 
@@ -15,29 +14,27 @@ void writeToRaw(T * voxels, std::string filename, int SIZE_X, int SIZE_Y, int SI
 void writeDataToDisk(TSFOutput * output, std::string storageDirectory, std::string name) {
 	SIPL::int3 * size = output->getSize();
 
-	if(output->hasTDF()) {
-		// Create MHD file
-		std::cout << "HOLA"<< std::endl;
-
-		std::ofstream file;
-		std::string filename = storageDirectory + name + ".TDF.mhd";
-		file.open(filename.c_str());
-		file << "ObjectType = Image\n";
-		file << "NDims = 3\n";
-        file << "BinaryData = True\n";
-        file << "BinaryDataByteOrderMSB = False\n";
-        file << "CompressedData = False\n";
-        file << "TransformMatrix = " << output->getTransformMatrix().m11 << " " << output->getTransformMatrix().m12 << " " << output->getTransformMatrix().m13 << " " << output->getTransformMatrix().m21 << " " << output->getTransformMatrix().m22 << " " << output->getTransformMatrix().m23 << " " << output->getTransformMatrix().m31 << " " << output->getTransformMatrix().m32 << " " << output->getTransformMatrix().m33 << "\n";
-        file << "Offset = " << output->getRawOffset().x << " " << output->getRawOffset().y << " " << output->getRawOffset().z << "\n";
-        file << "CenterOfRotation = " << output->getCenterRotation().x << " " << output->getCenterRotation().y << " " << output->getCenterRotation().z << "\n";
-        file << "AnatomicalOrientation = " << output->getAnatomicalOrientation() << "\n";
-		file << "ElementSpacing = " << output->getSpacing().x << " " << output->getSpacing().y << " " << output->getSpacing().z << "\n";
-        file << "DimSize = " << output->getSize()->x << " " << output->getSize()->y << " " << output->getSize()->z << "\n";
-        file << "ElementType = MET_CHAR\n";
-		file << "ElementDataFile = " << name << ".TDF.raw\n";
-		file.close();
-		writeToRaw<float>(output->getTDF(), storageDirectory + name + ".TDF.raw", size->x, size->y, size->z);
-	}
+//	if(output->hasTDF()) {
+//		// Create MHD file
+//		std::ofstream file;
+//		std::string filename = storageDirectory + name + ".TDF.mhd";
+//		file.open(filename.c_str());
+//		file << "ObjectType = Image\n";
+//		file << "NDims = 3\n";
+//        file << "BinaryData = True\n";
+//        file << "BinaryDataByteOrderMSB = False\n";
+//        file << "CompressedData = False\n";
+//        file << "TransformMatrix = " << output->getTransformMatrix().m11 << " " << output->getTransformMatrix().m12 << " " << output->getTransformMatrix().m13 << " " << output->getTransformMatrix().m21 << " " << output->getTransformMatrix().m22 << " " << output->getTransformMatrix().m23 << " " << output->getTransformMatrix().m31 << " " << output->getTransformMatrix().m32 << " " << output->getTransformMatrix().m33 << "\n";
+//        file << "Offset = " << output->getRawOffset().x << " " << output->getRawOffset().y << " " << output->getRawOffset().z << "\n";
+//        file << "CenterOfRotation = " << output->getCenterRotation().x << " " << output->getCenterRotation().y << " " << output->getCenterRotation().z << "\n";
+//        file << "AnatomicalOrientation = " << output->getAnatomicalOrientation() << "\n";
+//		file << "ElementSpacing = " << output->getSpacing().x << " " << output->getSpacing().y << " " << output->getSpacing().z << "\n";
+//        file << "DimSize = " << output->getSize()->x << " " << output->getSize()->y << " " << output->getSize()->z << "\n";
+//        file << "ElementType = MET_CHAR\n";
+//		file << "ElementDataFile = " << name << ".TDF.raw\n";
+//		file.close();
+//		writeToRaw<float>(output->getTDF(), storageDirectory + name + ".TDF.raw", size->x, size->y, size->z);
+//	}
 
 
 	if(output->hasCenterlineVoxels()) {
