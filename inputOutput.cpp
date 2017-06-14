@@ -1,6 +1,5 @@
 #include "inputOutput.hpp"
 #include <fstream>
-//#include <boost/filesystem.hpp>
 #include "SIPL/Exceptions.hpp"
 #include <iostream>
 using namespace SIPL;
@@ -13,47 +12,7 @@ void writeToRaw(T * voxels, std::string filename, int SIZE_X, int SIZE_Y, int SI
     fclose(file);
 }
 
-std::vector<std::string> splitpath(
-  const std::string& str
-  , const std::set<char> delimiters)
-{
-  std::vector<std::string> result;
-
-  char const* pch = str.c_str();
-  char const* start = pch;
-  for(; *pch; ++pch)
-  {
-    if (delimiters.find(*pch) != delimiters.end())
-    {
-      if (start != pch)
-      {
-        std::string str(start, pch);
-        result.push_back(str);
-      }
-      else
-      {
-        result.push_back("");
-      }
-      start = pch + 1;
-    }
-  }
-  result.push_back(start);
-
-  return result;
-}
-
-
-
-
 void writeDataToDisk(TSFOutput * output, std::string storageDirectory, std::string name) {
-	
-//	std::set<char> delims{'/'};
-//	std::cout << "HOLA"<< std::endl;
-//	std::vector<std::string> path = splitpath(name.c_str(), delims);
-//	std::cout << path.back() << path.front() << std::endl;
-//	
-//	std::cout << boost::filesystem::path(name.c_str()).stem().string() << std::endl;
-	
 	SIPL::int3 * size = output->getSize();
 
 	if(output->hasTDF()) {

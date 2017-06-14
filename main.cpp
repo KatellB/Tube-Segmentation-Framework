@@ -1,7 +1,6 @@
 #include "tube-segmentation.hpp"
 #include "SIPL/Core.hpp"
 #include "tsf-config.h"
-#include <boost/filesystem.hpp>
 
 
 int main(int argc, char ** argv) {
@@ -34,18 +33,6 @@ int main(int argc, char ** argv) {
     // Load default parameters and parse parameters from program arguments
     paramList parameters = getParameters(argc, argv);
     std::string filename = argv[1];
-    std::cout << boost::filesystem::path(filename.c_str()).stem().string() << std::endl;
-    std::string inputFilenameStr = "inputFilename";
-    
-    std::string description = "inputFilename";
-    std::string defaultValue = boost::filesystem::path(filename.c_str()).stem().string();//"defaultName";
-    std::string group = "general";
-    std::vector<std::string> list ;
-	StringParameter v = StringParameter(defaultValue, list, description, group);
-	parameters.strings[inputFilenameStr] = v;
-    
-    setParameter(parameters, inputFilenameStr , boost::filesystem::path(filename.c_str()).stem().string()); 
-//    printAllParameters();//TODO: remove print all
 
     TSFOutput * output;
     try {
