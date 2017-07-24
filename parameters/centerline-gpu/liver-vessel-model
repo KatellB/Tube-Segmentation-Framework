@@ -1,0 +1,14 @@
+mode white
+no-segmentation true
+centerline-method ridge
+small-blur 1.0
+fmax 0.1
+minimum 0
+maximum 90
+min-mean-tdf 0.3
+tdf-high 0.35
+min-tree-length 3
+max-distance 30
+radius-max 4.0
+storage-dir /home/katell/Desktop/pipeline/IO/outputs/
+storage-name original_Gp8_VS3_test
