@@ -1419,7 +1419,7 @@ Image3D readDatasetAndTransfer(OpenCL &ocl, std::string filename, paramList &par
     std::string line;
     std::string typeName = "";
     std::string rawFilename = "";
-    std::string anatomicalOrientation = "";
+    std::string anatomicalOrientation = "RAI";
     bool typeFound = false, sizeFound = false, rawFilenameFound = false;
     SIPL::float3 spacing(1,1,1);
     SIPL::float3 centerRotation(0,0,0);
